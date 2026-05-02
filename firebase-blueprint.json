@@ -1,0 +1,232 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Core user authentication and basic account information.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "senior", "alumni", "faculty", "moderator", "admin"] },
+        "caLevel": { "type": "string", "enum": ["Foundation", "Intermediate", "Final", "Qualified CA"] },
+        "attempt": { "type": "string" },
+        "city": { "type": "string" },
+        "country": { "type": "string" },
+        "profilePhotoUrl": { "type": "string" },
+        "bio": { "type": "string" },
+        "verificationStatus": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "warned"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "role", "createdAt"]
+    },
+    "Profile": {
+      "title": "Profile",
+      "description": "Extended user profile information including education and professional details.",
+      "type": "object",
+      "properties": {
+        "educationInfo": { "type": "string" },
+        "professionalInfo": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "mentorshipAvailable": { "type": "boolean" },
+        "socialLinks": { "type": "object" },
+        "privacySettings": { "type": "object" }
+      }
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Social feed content created by users.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "groupId": { "type": "string" },
+        "postType": { "type": "string", "enum": ["discussion", "doubt", "tip", "resource", "poll", "announcement", "career"] },
+        "content": { "type": "string" },
+        "mediaUrls": { "type": "array", "items": { "type": "string" } },
+        "subject": { "type": "string" },
+        "caLevel": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "visibility": { "type": "string", "enum": ["public", "group", "private"] },
+        "isPinned": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "content", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comments on posts.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "parentCommentId": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "authorId", "content", "createdAt"]
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "description": "Likes or reactions to posts and comments.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["post", "comment"] },
+        "targetId": { "type": "string" },
+        "reactionType": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Group": {
+      "title": "Group",
+      "description": "A subject-wise or level-wise community.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "groupType": { "type": "string", "enum": ["subject", "level", "attempt", "city", "articleship"] },
+        "caLevel": { "type": "string" },
+        "subject": { "type": "string" },
+        "privacyType": { "type": "string", "enum": ["public", "private", "hidden"] },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Question": {
+      "title": "Question",
+      "description": "A doubt asked in the Q&A section.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "subject": { "type": "string" },
+        "caLevel": { "type": "string" },
+        "topic": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "solved", "closed"] },
+        "bestAnswerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Answer": {
+      "title": "Answer",
+      "description": "An answer to a question.",
+      "type": "object",
+      "properties": {
+        "questionId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "body": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "upvoteCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A workspace note (Notion-style).",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "parentNoteId": { "type": "string" },
+        "title": { "type": "string" },
+        "icon": { "type": "string" },
+        "contentJson": { "type": "string" },
+        "subject": { "type": "string" },
+        "caLevel": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "visibility": { "type": "string", "enum": ["private", "shared", "group", "public"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Resource": {
+      "title": "Resource",
+      "description": "A study material file upload.",
+      "type": "object",
+      "properties": {
+        "uploadedBy": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "fileType": { "type": "string" },
+        "subject": { "type": "string" },
+        "caLevel": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "downloadCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification for various activities.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "targetUrl": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User account documents."
+    },
+    "/users/{userId}/profile/info": {
+      "schema": "Profile",
+      "description": "Detailed profile information with restricted access."
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Global social feed posts."
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on a specific post."
+    },
+    "/posts/{postId}/reactions/{reactionId}": {
+      "schema": "Reaction",
+      "description": "Reactions on a specific post."
+    },
+    "/groups/{groupId}": {
+      "schema": "Group",
+      "description": "Community group definitions."
+    },
+    "/groups/{groupId}/members/{userId}": {
+      "schema": "object",
+      "description": "Membership in a group."
+    },
+    "/questions/{questionId}": {
+      "schema": "Question",
+      "description": "Q&A doubts."
+    },
+    "/questions/{questionId}/answers/{answerId}": {
+      "schema": "Answer",
+      "description": "Answers to doubts."
+    },
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "Workspace notes."
+    },
+    "/resources/{resourceId}": {
+      "schema": "Resource",
+      "description": "Study library resources."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications."
+    }
+  }
+}
